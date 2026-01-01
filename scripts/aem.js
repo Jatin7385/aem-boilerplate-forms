@@ -16,6 +16,7 @@ function sampleRUM(checkpoint, data) {
   const timeShift = () => (window.performance ? window.performance.now() : Date.now() - window.hlx.rum.firstReadTime);
   try {
     window.hlx = window.hlx || {};
+<<<<<<< HEAD
     if (!window.hlx.rum || !window.hlx.rum.collector) {
       sampleRUM.enhance = () => {};
       const params = new URLSearchParams(window.location.search);
@@ -34,6 +35,17 @@ function sampleRUM(checkpoint, data) {
       const id = (window.hlx.rum && window.hlx.rum.id) || crypto.randomUUID().slice(-9);
       const isSelected = (window.hlx.rum && window.hlx.rum.isSelected)
         || (weight > 0 && Math.random() * weight < 1);
+=======
+    if (!window.hlx.rum) {
+      sampleRUM.enhance = () => {};
+      const param = new URLSearchParams(window.location.search).get('rum');
+      const weight = (param === 'on' && 1)
+        || (window.SAMPLE_PAGEVIEWS_AT_RATE === 'high' && 10)
+        || (window.SAMPLE_PAGEVIEWS_AT_RATE === 'low' && 1000)
+        || 100;
+      const id = Math.random().toString(36).slice(-4);
+      const isSelected = param !== 'off' && Math.random() * weight < 1;
+>>>>>>> cd081e8 (chore:monthly sync from xwalk (#112))
       // eslint-disable-next-line object-curly-newline, max-len
       window.hlx.rum = {
         weight,
